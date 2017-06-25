@@ -1,8 +1,8 @@
 const express = require('express'),
-      path = require('path'),
-						logger = require('morgan'),
-						cookieParser = require('cookie-parser'),
-						bodyParser = require('body-parser');
+  path = require('path'),
+  logger = require('morgan'),
+  cookieParser = require('cookie-parser'),
+  bodyParser = require('body-parser');
 
 var app = express();
 
@@ -10,7 +10,9 @@ var app = express();
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -27,9 +29,9 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.json({
-						message: err.message,
-						error: req.app.get('env') === 'development' ? err : {}
-		});
+    message: err.message,
+    error: req.app.get('env') === 'development' ? err : {}
+  });
 });
 
 module.exports = app;
