@@ -4,7 +4,9 @@ const express = require('express'),
   cookieParser = require('cookie-parser'),
   bodyParser = require('body-parser');
 
-var app = express();
+const app = express();
+
+const landlordRoutes = require('./api/landlord-routes');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -15,6 +17,8 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/api/v1/properties', landlordRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -29,9 +33,8 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.json({
-    message: err.message,
-    error: req.app.get('env') === 'development' ? err : {}
-  });
+		message: err.message,
+		error: req.app.get('env') === 'development' ? err : {}
+		});
 });
-
 module.exports = app;
