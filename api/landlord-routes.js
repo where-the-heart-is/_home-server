@@ -7,15 +7,8 @@ function isValidId(req, res, next) {
   next(new Error('Invalid ID'));
 }
 
-
-router.get('/', (req, res) => {
-  queries.getAllProperties().then(properties => {
-    res.json(properties);
-  })
-})
-
 router.get('/:id', isValidId, (req, res, next) => {
-  queries.getOneProperty(req.params.id).then(properties => {
+  queries.getLandlordProperties(req.params.id).then(properties => {
     if(properties) {
       res.json(properties);
     } else {
