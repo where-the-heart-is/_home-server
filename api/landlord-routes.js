@@ -10,7 +10,6 @@ function isValidId(req, res, next) {
 router.get('/:id', isValidId, (req, res, next) => {
   queries.getUserProperties(req.params.id)
     .then(properties => {
-
       const collectionOfProperties = [];
       const propertyWithTenants = {};
 

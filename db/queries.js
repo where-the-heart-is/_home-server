@@ -18,6 +18,7 @@ module.exports = {
                           .join('property', 'property_id', 'property.id').where('landlord_id', id)
                           .join('account', 'tenant_id', 'account.id')
                           .join('location', 'location_id', 'location.id')
+
                 } else {
                   return knex.select('*').from('tenant_property')
                           .join('property', 'property_id', 'property.id').where('tenant_id', id)
