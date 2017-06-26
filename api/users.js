@@ -7,13 +7,18 @@ function isValidId(req, res, next) {
   next(new Error('Invalid ID'));
 }
 
+router.get('/:id/profile', isValidId, (req, res, next) => {
+  queries.getUserByID(req.params.id)
+    .then(user => {
+      res.json(user);
+    });
+});
+
 router.get('/:id', isValidId, (req, res, next) => {
   queries.getUserProperties(req.params.id)
     .then(properties => {
-
       const collectionOfProperties = [];
       const propertyWithTenants = {};
-
       properties.forEach(property => {
         if (!propertyWithTenants[property.property_id]) {
           const propertyInstance = {
@@ -29,7 +34,6 @@ router.get('/:id', isValidId, (req, res, next) => {
             image: property.image,
             tenants: []
           };
-
           collectionOfProperties.push(propertyInstance);
           propertyWithTenants[property.property_id] = propertyInstance;
         }
@@ -40,7 +44,6 @@ router.get('/:id', isValidId, (req, res, next) => {
             lastName: property.last_name,
             email: property.email
           });
-
       });
       res.json(collectionOfProperties)
 
