@@ -35,7 +35,7 @@ module.exports = {
   },
 
   getAllTenatsByProperty: (id) => {
-    return knex.select('*').from('property').where('property_id', id)
+    return knex.select('first_name', 'last_name', 'email').from('property').where('property_id', id)
       .join('tenant_property', 'property_id', 'property.id')
       .join('account', 'tenant_id', 'account.id')
   },
