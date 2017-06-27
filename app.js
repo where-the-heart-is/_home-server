@@ -7,10 +7,6 @@ const express = require('express'),
 const app = express();
 
 const users = require('./api/users');
-const property = require('./api/property');
-const tenant = require('./api/tenant');
-
-const cors = require('cors');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -22,11 +18,7 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(cors())
-
 app.use('/api/v1/users', users);
-app.use('/api/v1/property', property);
-app.use('/api/v1/tenant', tenant);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -45,5 +37,4 @@ app.use(function(err, req, res, next) {
 		error: req.app.get('env') === 'development' ? err : {}
 		});
 });
-
 module.exports = app;
