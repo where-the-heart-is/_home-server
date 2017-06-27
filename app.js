@@ -7,6 +7,8 @@ const express = require('express'),
 const app = express();
 
 const users = require('./api/users');
+const property = require('property');
+const tenant = require('tenant');
 
 const cors = require('cors');
 
@@ -23,6 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
 
 app.use('/api/v1/users', users);
+app.use('/api/v1/property', property);
+app.use('/api/v1/tenant', tenant);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
