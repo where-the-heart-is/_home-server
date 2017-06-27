@@ -22,7 +22,7 @@ router.get('/:id', isValidId, (req, res, next) => {
       properties.forEach(property => {
         if (!propertyWithTenants[property.property_id]) {
           const propertyInstance = {
-            id: property.property_id,
+            property_id: property.property_id,
             address: property.address,
             city: property.city,
             state: property.state,
