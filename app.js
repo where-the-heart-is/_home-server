@@ -7,8 +7,8 @@ const express = require('express'),
 const app = express();
 
 const users = require('./api/users');
-const property = require('property');
-const tenant = require('tenant');
+const property = require('./api/property');
+const tenant = require('./api/tenant');
 
 const cors = require('cors');
 
