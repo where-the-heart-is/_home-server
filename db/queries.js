@@ -22,9 +22,8 @@ module.exports = {
       });
   },
   getAllPropertyDetails(id) {
-      
       let promises = [];
-      
+    
       function parsePropDocs(docs) {
           
           const documents = {
