@@ -1,8 +1,8 @@
 const express = require('express'),
-      path = require('path'),
-						logger = require('morgan'),
-						cookieParser = require('cookie-parser'),
-						bodyParser = require('body-parser');
+    path = require('path'),
+	logger = require('morgan'),
+	cookieParser = require('cookie-parser'),
+	bodyParser = require('body-parser');
 
 const app = express();
 
@@ -35,4 +35,5 @@ app.use(function(err, req, res, next) {
 		error: req.app.get('env') === 'development' ? err : {}
 		});
 });
+
 module.exports = app;

@@ -8,6 +8,7 @@ function isValidId(req, res, next) {
 }
 
 router.get('/:id', isValidId, (req, res, next) => {
+
   queries.getLandlordProperties(req.params.id).then(properties => {
     if(properties) {
       res.json(properties);
@@ -16,10 +17,5 @@ router.get('/:id', isValidId, (req, res, next) => {
     }
   })
 });
-
-
-
-
-
 
 module.exports = router;
