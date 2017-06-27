@@ -2,14 +2,17 @@ const express = require('express'),
   path = require('path'),
   logger = require('morgan'),
   cookieParser = require('cookie-parser'),
-  bodyParser = require('body-parser');
+  bodyParser = require('body-parser'),
+  cors = require('cors');
 
 const app = express();
 
-const users = require('./api/users');
+app.use(cors());
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+const users = require('./api/users');
+const property = require('./api/property');
+const tenant = require('./api/tenant');
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -19,6 +22,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/v1/users', users);
+app.use('/api/v1/property', property);
+app.use('/api/v1/tenant', tenant);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
