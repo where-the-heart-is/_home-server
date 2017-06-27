@@ -1,7 +1,5 @@
 const knex = require('./knex');
 
-
-
 module.exports = {
   getMaintenanceDocuments: (id) => {
     let promises = [];
