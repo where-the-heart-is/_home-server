@@ -1,9 +1,7 @@
 const knex = require('./knex');
 
-
-
 module.exports = {
-  getMaintenanceDocuments: (id) => {
+  getMaintenanceDocuments: id => {
     let promises = [];
     return knex('account').where('account.id', id).select('is_landlord').first()
       .then(account => {
@@ -21,6 +19,7 @@ module.exports = {
 
         }
       });
+
     function parsePropDocs(docs) {
       const documents = {
         documents: docs[0][0],
@@ -30,13 +29,18 @@ module.exports = {
     }
   },
 
+  getPropertyInfo: id => {
+    return knex.select('*', 'property.id as property_id').from('property').where('property.id', id)
+            .join('location', 'location_id', 'location.id')
+  },
+
   getAllTenatsByProperty: (id) => {
     return knex.select('*').from('property').where('property_id', id)
       .join('tenant_property', 'property_id', 'property.id')
       .join('account', 'tenant_id', 'account.id')
   },
 
-  createNewProperty: (property) => {
+  createNewProperty: property => {
     const {
       location,
       address,
@@ -78,4 +82,6 @@ module.exports = {
         })
       })
   }
+
+
 }

@@ -23,6 +23,6 @@ module.exports = {
             .join('account', 'tenant_id', 'account.id').where('tenant_id', id)
             .join('location', 'location_id', 'location.id')
         }
-      });
+    });
   }
 }

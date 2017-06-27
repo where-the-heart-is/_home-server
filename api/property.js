@@ -10,10 +10,17 @@ function isValidId(req, res, next) {
 }
 
 // Get All Property Details for a property by ID
-router.get('/:id', isValidId, (req, res) => {
+router.get('/:id', isValidId, (req, res, next) => {
+  propertyQueries.getPropertyInfo(req.params.id)
+  .then(property => {
+    res.json(property)
+  });
+});
+
+router.get('/:id/documents', isValidId, (req, res) => {
   propertyQueries.getMaintenanceDocuments(req.params.id)
-    .then(property => {
-      res.json(property);
+    .then(document => {
+      res.json(document);
     });
 });
 
