@@ -1,13 +1,13 @@
 const knex = require('./knex');
 
 module.exports = {
-  getAllProperties: function() {
-    return knex.select('*').from('property');
-  },
-
-  getOneProperty(id) {
-    return knex('property').where('id', id).first();
-  },
+  // getAllProperties: function() {
+  //   return knex.select('*').from('property');
+  // },
+  //
+  // getOneProperty(id) {
+  //   return knex('property').where('id', id).first();
+  // },
   getUserByID(id) {
     return knex.select('email', 'first_name', 'last_name').from('account').where('id', id).first();
   },
