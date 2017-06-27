@@ -1,6 +1,4 @@
-const express = require('express'),
-      router = express.Router();
-      queries = require('../db/queries');
+const express = require('express'), router = express.Router(), queries = require('../db/queries');
 
 function isValidId(req, res, next) {
   if (!isNaN(req.params.id)) return next();
@@ -37,13 +35,12 @@ router.get('/:id', isValidId, (req, res, next) => {
           collectionOfProperties.push(propertyInstance);
           propertyWithTenants[property.property_id] = propertyInstance;
         }
+        propertyWithTenants[property.property_id].tenants.push({
+          firstName: property.first_name,
+          lastName: property.last_name,
+          email: property.email
+        });
 
-        propertyWithTenants[property.property_id].tenants.push(
-          {
-            firstName: property.first_name,
-            lastName: property.last_name,
-            email: property.email
-          });
       });
       res.json(collectionOfProperties)
 

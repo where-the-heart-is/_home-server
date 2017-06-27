@@ -1,8 +1,6 @@
 module.exports = {
-    
-    development: {
-        client: 'pg',
+  development: {
+		client:     'pg',
 		connection: 'postgres://localhost/athome'
 	}
-    
 }
