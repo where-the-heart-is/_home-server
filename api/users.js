@@ -50,4 +50,12 @@ router.get('/:id', isValidId, (req, res, next) => {
     });
 });
 
+router.get('/:id/property', isValidId ,(req, res) => {
+    queries.getAllPropertyDetails(req.params.id)
+        .then(property => {
+            res.json(property);
+        });
+});
+
+
 module.exports = router;
