@@ -11,7 +11,14 @@ function isValidId(req, res, next) {
 
 // Get All Property Details for a property by ID
 router.get('/:id', isValidId, (req, res) => {
-  propertyQueries.getAllPropertyDetails(req.params.id)
+  propertyQueries.getMaintenanceDocuments(req.params.id)
+    .then(property => {
+      res.json(property);
+    });
+});
+
+router.get('/:id/tenants', isValidId, (req, res) => {
+  propertyQueries.getAllTenatsByProperty(req.params.id)
     .then(property => {
       res.json(property);
     });
@@ -19,7 +26,7 @@ router.get('/:id', isValidId, (req, res) => {
 
 // Create a new property
 router.post('/', (req, res, next) => {
-  propertyQueries.createProperty(req.body)
+  propertyQueries.createNewProperty(req.body)
     .then(property => {
       res.json(property)
     })
