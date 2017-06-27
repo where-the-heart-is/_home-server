@@ -2,7 +2,7 @@ const knex = require('./knex');
 
 module.exports = {
   getUserByID: function(id) {
-    return knex('account').where('account.id', id);
+    return knex.select('email', 'first_name', 'last_name').from('account').where('account.id', id).first();
   },
   getUserProperties(id) {
     return knex('account').where('account.id', id).select('is_landlord').first()
