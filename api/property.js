@@ -17,13 +17,8 @@ router.get('/:id', isValidId, (req, res, next) => {
   });
 });
 
-<<<<<<< HEAD
-router.get('/:id/documents', isValidId, (req, res) 
-  propertyQueries.getMaintenanceDocuments(req.params.id)
-=======
 router.get('/:id/documents', isValidId, (req, res) => {
   propertyQueries.getDocuments(req.params.id)
->>>>>>> 613dcfd32812f4850359d0e140f8f9ddde4fb061
     .then(document => {
       res.json(document);
     });
