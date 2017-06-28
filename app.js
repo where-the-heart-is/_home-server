@@ -7,11 +7,16 @@ const express = require('express'),
 
 const app = express();
 
-app.use(cors());
-
 const users = require('./api/users');
 const property = require('./api/property');
-const tenant = require('./api/tenant');
+const auth = require('./auth/index');
+
+const authMiddleware = require('./auth/middleware')
+
+app.use(cors({
+  origin: 'http://localhost:3001',
+  credentials: true
+}));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -23,7 +28,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/v1/users', users);
 app.use('/api/v1/property', property);
-app.use('/api/v1/tenant', tenant);
+
+app.use('/auth', auth)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
