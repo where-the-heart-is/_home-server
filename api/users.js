@@ -40,10 +40,9 @@ router.get('/:id', isValidId, (req, res, next) => {
           lastName: property.last_name,
           email: property.email
         });
-
-      });
-      res.json(collectionOfProperties)
-
+    });
+    res.json(collectionOfProperties)
+      
     });
 });
 
