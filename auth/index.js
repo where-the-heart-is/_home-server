@@ -55,16 +55,16 @@ router.post('/signup', (req, res, next) => {
       .then(user => {
         console.log("user:", user);
         if (!user) {
-          return bcrypt.hash(req.body.password, 10)
+          bcrypt.hash(req.body.password, 10)
             .then(hash => {
-              const user => {
+              const user = {
                 first_name: req.body.first_name,
                 last_name: req.body.last_name,
-                email: req.body.email
+                email: req.body.email,
                 password: hash,
                 is_landlord: req.body.is_landlord
               };
-              User.createNewAccount(account)
+              User.createNewAccount(user)
                 .then(id => {
                   jwt.sign({
                     id
@@ -97,25 +97,25 @@ router.post('/login', (req, res, next) => {
       .then(user => {
         if (user) {
           bcrypt.compare(req.body.password, user.password)
-          .then(result=>{
-            if(result) {
-              jwt.sign({
-                id: user.id
-              }, process.env.SECRET_TOKEN, {
-                expiresIn: '7d'
-              }, (err, token) => {
-                console.log('err', err);
-                console.log('token', token);
-                res.json({
-                  id,
-                  token,
-                  message: "Okay"
-                })
-              });
-            } else {
-              next(new Error("Invalid Email and/or Password"));
-            }
-          });
+            .then(result => {
+              if (result) {
+                jwt.sign({
+                  id: user.id
+                }, process.env.SECRET_TOKEN, {
+                  expiresIn: '7d'
+                }, (err, token) => {
+                  console.log('err', err);
+                  console.log('token', token);
+                  res.json({
+                    id,
+                    token,
+                    message: "Okay"
+                  })
+                });
+              } else {
+                next(new Error("Invalid Email and/or Password"));
+              }
+            });
         } else {
           next(new Error("Invalid Email and/or Password"));
         }
