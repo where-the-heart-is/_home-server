@@ -1,31 +1,23 @@
 const knex = require('./knex');
 
 module.exports = {
-  getMaintenanceDocuments: id => {
-    let promises = [];
-    return knex.select('*').from('property').where('landlord_id', id)
-      .join('tenant_property', 'property.id', 'property_id')
-      .join('account', 'tenant_id', 'account.id')
-      .join('location', 'location_id', 'location.id')
-      .then(() => {
-        promises.push(knex('documents').where('property_id', id))
-        promises.push(knex('maintenance').where('property_id', id))
-        return Promise.all(promises).then(parsePropDocs);
-      })
-      
-      function parsePropDocs(docs) {
-        const documents = {
-          documents: docs[0][0],
-          maintenance: docs[1][0]
-        }
-        return documents;
-      }
+  getDocuments: id => {
+        return knex('documents').where('property_id', id);
+      },
+
+  createDocument: document => {
+
+    return knex('documents').insert(document);
   },
 
-getPropertyInfo: id => {
-    return knex.select('*', 'property.id as property_id').from('property').where('property.id', id)
-      .join('location', 'location_id', 'location.id')
-  },
+  getMaintenance: id => {
+        return knex('maintenance').where('property_id', id);
+      },
+
+  getPropertyInfo: id => {
+      return knex.select('*', 'property.id as property_id').from('property').where('property.id', id)
+        .join('location', 'location_id', 'location.id')
+    },
 
   getAllTenatsByProperty: (id) => {
     return knex.select('first_name', 'last_name', 'email').from('property').where('property_id', id)
