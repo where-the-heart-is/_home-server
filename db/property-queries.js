@@ -1,9 +1,10 @@
 const knex = require('./knex');
 
 module.exports = {
+  // PROPERTY DOCUMENTS
   getDocuments: id => {
-        return knex('documents').where('property_id', id);
-      },
+    return knex('documents').where('property_id', id);
+  },
 
   createDocument: document => {
     return knex('documents').insert(document);
@@ -11,50 +12,43 @@ module.exports = {
 
   updateDocument: (document) => {
     return knex('documents').where('id', document.id)
-            .update({
-              title: document.title,
-              document_url: document.document_url
-            });
+      .update({
+        title: document.title,
+        document_url: document.document_url
+      });
   },
 
   deleteDocument: (document) => {
     return knex('documents').where('id', document.id).del();
   },
 
+  // PROPERTY MAINTENANCE
   getMaintenance: id => {
-        return knex('maintenance').where('property_id', id);
-    },
-    
-    createMaintenance: maintenance => {
-        return knex('maintenance').insert(maintenance);
-    },
-    
-    updateMaintenance: (maintenance) => {
-      return knex('maintenance').where('id', maintenance.id)
-              .update({
-                title: maintenance.title,
-                request: maintenance.request,
-                status: maintenance.status
-              });
-    },
-    
-    deleteMaintenance: maintenance => {
-      return knex('maintenance').where('id', maintenance.id).del();
-    },
-    
-    
-    
-  getPropertyInfo: id => {
-      return knex.select('*', 'property.id as property_id').from('property').where('property.id', id)
-        .join('location', 'location_id', 'location.id')
-    },
-
-  getAllTenatsByProperty: (id) => {
-    return knex.select('first_name', 'last_name', 'email').from('property').where('property_id', id)
-      .join('tenant_property', 'property_id', 'property.id')
-      .join('account', 'tenant_id', 'account.id')
+    return knex('maintenance').where('property_id', id);
   },
 
+  createMaintenance: maintenance => {
+    return knex('maintenance').insert(maintenance);
+  },
+
+  updateMaintenance: (maintenance) => {
+    return knex('maintenance').where('id', maintenance.id)
+      .update({
+        title: maintenance.title,
+        request: maintenance.request,
+        status: maintenance.status
+      });
+  },
+
+  deleteMaintenance: maintenance => {
+    return knex('maintenance').where('id', maintenance.id).del();
+  },
+
+  // PROPERTY
+  getPropertyInfo: id => {
+    return knex.select('*', 'property.id as property_id').from('property').where('property.id', id)
+      .join('location', 'location_id', 'location.id')
+  },
   createNewProperty: property => {
     const {
       location,
@@ -95,7 +89,6 @@ module.exports = {
         })
       })
   },
-  
   updateProperty: property => {
     const {
       location,
@@ -113,7 +106,7 @@ module.exports = {
       .first()
       .then(if_found => {
         if (if_found) {
-            console.log(if_found);
+          console.log(if_found);
           const location_id = if_found.id;
           return location_id;
         } else {
@@ -125,19 +118,25 @@ module.exports = {
             })
         }
       }).then(location_id => {
-          console.log(location_id, address);
+        console.log(location_id, address);
         return knex('property').where('id', property.id)
-        .update({
-          address,
-          rent_price,
-          bedrooms,
-          bathrooms,
-          square_footage,
-          image,
-          location_id: location_id
-        })
+          .update({
+            address,
+            rent_price,
+            bedrooms,
+            bathrooms,
+            square_footage,
+            image,
+            location_id: location_id
+          })
       })
+  },
+  deleteProperty: id => {
+    return knex('property').where('id', id).del();
+  },
+  getAllTenatsByProperty: (id) => {
+    return knex.select('first_name', 'last_name', 'email').from('property').where('property_id', id)
+      .join('tenant_property', 'property_id', 'property.id')
+      .join('account', 'tenant_id', 'account.id')
   }
-
-
 }
