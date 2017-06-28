@@ -18,9 +18,37 @@ router.get('/:id', isValidId, (req, res, next) => {
 });
 
 router.get('/:id/documents', isValidId, (req, res) => {
-  propertyQueries.getMaintenanceDocuments(req.params.id)
+  propertyQueries.getDocuments(req.params.id)
     .then(document => {
       res.json(document);
+    });
+});
+
+router.post('/:id/documents', isValidId, (req, res) => {
+  propertyQueries.createDocument(req.body)
+    .then(document => {
+      res.json(document);
+    });
+});
+
+router.put('/:id/documents', isValidId, (req, res) => {
+  propertyQueries.updateDocument(req.body)
+    .then(document => {
+      res.json({message: "Document updated!"});
+    });
+});
+
+router.delete('/:id/documents', isValidId, (req, res) => {
+  propertyQueries.deleteDocument(req.body)
+    .then(document => {
+      res.json({message: "Document deleted!"});
+    });
+});
+
+router.get('/:id/maintenance', isValidId, (req, res) => {
+  propertyQueries.getMaintenance(req.params.id)
+    .then(maintenance => {
+      res.json(maintenance);
     });
 });
 
