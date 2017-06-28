@@ -6,8 +6,19 @@ module.exports = {
       },
 
   createDocument: document => {
-
     return knex('documents').insert(document);
+  },
+
+  updateDocument: (document) => {
+    return knex('documents').where('id', document.id)
+            .update({
+              title: document.title,
+              document_url: document.document_url
+            });
+  },
+
+  deleteDocument: (document) => {
+    return knex('documents').where('id', document.id).del();
   },
 
   getMaintenance: id => {

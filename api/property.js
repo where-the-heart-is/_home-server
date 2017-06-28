@@ -31,6 +31,20 @@ router.post('/:id/documents', isValidId, (req, res) => {
     });
 });
 
+router.put('/:id/documents', isValidId, (req, res) => {
+  propertyQueries.updateDocument(req.body)
+    .then(document => {
+      res.json({message: "Document updated!"});
+    });
+});
+
+router.delete('/:id/documents', isValidId, (req, res) => {
+  propertyQueries.deleteDocument(req.body)
+    .then(document => {
+      res.json({message: "Document deleted!"});
+    });
+});
+
 router.get('/:id/maintenance', isValidId, (req, res) => {
   propertyQueries.getMaintenance(req.params.id)
     .then(maintenance => {
