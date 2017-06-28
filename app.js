@@ -14,7 +14,7 @@ const auth = require('./auth/index');
 const authMiddleware = require('./auth/middleware')
 
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: process.env.CORS_ORIGIN,
   credentials: true
 }));
 
