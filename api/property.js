@@ -73,12 +73,6 @@ router.delete('/:id/maintenance', isValidId, (req, res) => {
     });
 });
 
-
-
-
-
-
-
 router.get('/:id/tenants', isValidId, (req, res) => {
   propertyQueries.getAllTenatsByProperty(req.params.id)
     .then(property => {
