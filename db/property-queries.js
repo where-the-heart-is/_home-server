@@ -23,8 +23,27 @@ module.exports = {
 
   getMaintenance: id => {
         return knex('maintenance').where('property_id', id);
-      },
-
+    },
+    
+    createMaintenance: maintenance => {
+        return knex('maintenance').insert(maintenance);
+    },
+    
+    updateMaintenance: (maintenance) => {
+      return knex('maintenance').where('id', maintenance.id)
+              .update({
+                title: maintenance.title,
+                request: maintenance.request,
+                status: maintenance.status
+              });
+    },
+    
+    deleteMaintenance: maintenance => {
+      return knex('maintenance').where('id', maintenance.id).del();
+    },
+    
+    
+    
   getPropertyInfo: id => {
       return knex.select('*', 'property.id as property_id').from('property').where('property.id', id)
         .join('location', 'location_id', 'location.id')
