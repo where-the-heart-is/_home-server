@@ -52,6 +52,27 @@ router.get('/:id/maintenance', isValidId, (req, res) => {
     });
 });
 
+router.post('/:id/maintenance', isValidId, (req, res) => {
+    propertyQueries.createMaintenance(req.body)
+        .then(maintenance => {
+        res.json(maintenance);
+    });
+});
+
+router.put('/:id/maintenance', isValidId, (req, res) => {
+  propertyQueries.updateMaintenance(req.body)
+    .then(maintenance => {
+      res.json({message: "Maintenance request completed!"});
+    });
+});
+
+router.delete('/:id/maintenance', isValidId, (req, res) => {
+  propertyQueries.deleteMaintenance(req.body)
+    .then(maintenance => {
+      res.json({message: "Maintenance request deleted!"});
+    });
+});
+
 router.get('/:id/tenants', isValidId, (req, res) => {
   propertyQueries.getAllTenatsByProperty(req.params.id)
     .then(property => {
