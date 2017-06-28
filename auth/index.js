@@ -91,7 +91,6 @@ router.post('/signup', (req, res, next) => {
 });
 
 router.post('/login', (req, res, next) => {
-  console.log(req.body);
   if (isLoginValid(req.body)) {
     User.getUserByEmail(req.body.email)
       .then(user => {
