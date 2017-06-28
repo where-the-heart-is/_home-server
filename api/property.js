@@ -1,6 +1,6 @@
 const express = require('express'),
   router = express.Router();
-  propertyQueries = require('../db/property-queries');
+propertyQueries = require('../db/property-queries');
 
 const knex = require('../db/knex')
 
@@ -12,9 +12,9 @@ function isValidId(req, res, next) {
 // Get All Property Details for a property by ID
 router.get('/:id', isValidId, (req, res, next) => {
   propertyQueries.getPropertyInfo(req.params.id)
-  .then(property => {
-    res.json(property)
-  });
+    .then(property => {
+      res.json(property)
+    });
 });
 
 router.get('/:id/documents', isValidId, (req, res) => {
@@ -34,14 +34,18 @@ router.post('/:id/documents', isValidId, (req, res) => {
 router.put('/:id/documents', isValidId, (req, res) => {
   propertyQueries.updateDocument(req.body)
     .then(document => {
-      res.json({message: "Document updated!"});
+      res.json({
+        message: "Document updated!"
+      });
     });
 });
 
 router.delete('/:id/documents', isValidId, (req, res) => {
   propertyQueries.deleteDocument(req.body)
     .then(document => {
-      res.json({message: "Document deleted!"});
+      res.json({
+        message: "Document deleted!"
+      });
     });
 });
 
@@ -53,23 +57,27 @@ router.get('/:id/maintenance', isValidId, (req, res) => {
 });
 
 router.post('/:id/maintenance', isValidId, (req, res) => {
-    propertyQueries.createMaintenance(req.body)
-        .then(maintenance => {
-        res.json(maintenance);
+  propertyQueries.createMaintenance(req.body)
+    .then(maintenance => {
+      res.json(maintenance);
     });
 });
 
 router.put('/:id/maintenance', isValidId, (req, res) => {
   propertyQueries.updateMaintenance(req.body)
     .then(maintenance => {
-      res.json({message: "Maintenance request completed!"});
+      res.json({
+        message: "Maintenance request completed!"
+      });
     });
 });
 
 router.delete('/:id/maintenance', isValidId, (req, res) => {
   propertyQueries.deleteMaintenance(req.body)
     .then(maintenance => {
-      res.json({message: "Maintenance request deleted!"});
+      res.json({
+        message: "Maintenance request deleted!"
+      });
     });
 });
 
@@ -89,12 +97,21 @@ router.post('/', (req, res, next) => {
 })
 
 router.put('/', (req, res) => {
-    propertyQueries.updateProperty(req.body)
-        .then(property => {
-            res.json({
-                message: 'Property updated!'
-            })
-        })
+  propertyQueries.updateProperty(req.body)
+    .then(property => {
+      res.json({
+        message: 'Property updated!'
+      })
+    })
+});
+
+router.delete('/:id', isValidId, (req, res) => {
+  propertyQueries.deleteProperty(req.params.id)
+    .then(property => {
+      res.json({
+        message: "Property deleted!"
+      });
+    });
 });
 
 module.exports = router;
