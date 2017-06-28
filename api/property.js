@@ -88,4 +88,13 @@ router.post('/', (req, res, next) => {
     })
 })
 
+router.put('/', (req, res) => {
+    propertyQueries.updateProperty(req.body)
+        .then(property => {
+            res.json({
+                message: 'Property updated!'
+            })
+        })
+});
+
 module.exports = router;
