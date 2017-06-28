@@ -17,7 +17,7 @@ router.get('/:id', isValidId, (req, res, next) => {
   });
 });
 
-router.get('/:id/documents', isValidId, (req, res) => {
+router.get('/:id/documents', isValidId, (req, res) 
   propertyQueries.getMaintenanceDocuments(req.params.id)
     .then(document => {
       res.json(document);
