@@ -1,8 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
 const router = express.Router();
-
 const User = require('../db/signup');
 
 require('dotenv').config();
@@ -14,7 +13,7 @@ router.get('/', (req, res) => {
 })
 
 // User Validation
-function isUserValid (user) {
+function isUserValid(user) {
   const hasValidFirstName = typeof user.first_name == "string" && user.first_name.trim() != '';
   const hasValidLastName = typeof user.last_name == "string" && user.last_name.trim() != '';
   const hasValidEmail = validEmailAddress(user.email);
@@ -51,11 +50,11 @@ function validPassword(userPassword) {
 
 // SIGNUP ROUTE
 router.post('/signup', (req, res, next) => {
-  if(isUserValid(req.body)) {
+  if (isUserValid(req.body)) {
     User.getUserByEmail(req.body.email)
       .then(user => {
         console.log("user:", user);
-        if(!user) {
+        if (!user) {
           return bcrypt.hash(req.body.password, 10)
             .then(hash => {
               const user => {
@@ -67,21 +66,68 @@ router.post('/signup', (req, res, next) => {
               };
               User.createNewAccount(account)
                 .then(id => {
-                  res.json({
-                    id,
-                    message: "New User Created"
+                  jwt.sign({
+                    id
+                  }, process.env.TOKEN_SECRET, {
+                    expiresIn: '7d'
+                  }, (err, token) => {
+                    console.log('err', err);
+                    console.log('token', token);
+                    res.json({
+                      id,
+                      token,
+                      message: "New User Created"
+                    })
                   });
                 });
             });
         } else {
-          next(new Error ("Email is already in use"));
+          next(new Error("Email is already in use"));
         }
       });
   } else {
-    next(new Error ("Invalid User"));
+    next(new Error("Invalid User"));
   }
 });
 
 router.post('/login', (req, res, next) => {
   console.log(req.body);
+  if (isLoginValid(req.body)) {
+    User.getUserByEmail(req.body.email)
+      .then(user => {
+        if (user) {
+          bcrypt.compare(req.body.password, user.password)
+          .then(result=>{
+            if(result) {
+              jwt.sign({
+                id: user.id
+              }, process.env.SECRET_TOKEN, {
+                expiresIn: '7d'
+              }, (err, token) => {
+                console.log('err', err);
+                console.log('token', token);
+                res.json({
+                  id,
+                  token,
+                  message: "Okay"
+                })
+              });
+            } else {
+              next(new Error("Invalid Email and/or Password"));
+            }
+          });
+        } else {
+          next(new Error("Invalid Email and/or Password"));
+        }
+      })
+  } else {
+    next(new Error("Invalid Email and/or Password"));
+  }
 });
+
+router.get('/logout', (req, res) => {
+  // res.clear
+  // LOG OUT CODE REQUIRED
+});
+
+module.exports = router;
