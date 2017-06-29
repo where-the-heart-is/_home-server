@@ -54,6 +54,7 @@ router.post('/signup', (req, res, next) => {
     User.getUserByEmail(req.body.email)
       .then(user => {
         console.log("user:", user);
+        console.log(process.env.TOKEN_SECRET);
         if (!user) {
           bcrypt.hash(req.body.password, 10)
             .then(hash => {
