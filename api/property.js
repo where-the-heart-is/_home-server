@@ -1,6 +1,6 @@
-const express = require('express'),
-  router = express.Router();
-propertyQueries = require('../db/property-queries');
+const express = require('express');
+const router = express.Router();
+const propertyQueries = require('../db/property-queries');
 
 const knex = require('../db/knex')
 
@@ -110,6 +110,22 @@ router.delete('/:id', isValidId, (req, res) => {
     .then(property => {
       res.json({
         message: "Property deleted!"
+      });
+    });
+});
+
+router.post('/:id/tenants', isValidId, (req, res) => {
+  propertyQueries.addTenant(req.body)
+    .then(tenant => {
+      res.json(tenant);
+    });
+});
+
+router.delete('/:id/tenants', isValidId, (req, res) => {
+  propertyQueries.deleteTenant(req.body)
+    .then(tenant => {
+      res.json({
+        message: "Tenant deleted!"
       });
     });
 });
