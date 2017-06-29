@@ -135,8 +135,34 @@ module.exports = {
     return knex('property').where('id', id).del();
   },
   getAllTenatsByProperty: (id) => {
-    return knex.select('first_name', 'last_name', 'email').from('property').where('property_id', id)
+    return knex.select('first_name', 'last_name', 'email','tenant_property.id').from('property').where('property_id', id)
       .join('tenant_property', 'property_id', 'property.id')
       .join('account', 'tenant_id', 'account.id')
+  },
+
+  addTenant: tenant => {
+    const {
+      property_id,
+      email
+    } = tenant;
+    return knex.select('*').from('account').where('email', email)
+    .first()
+    .then(user => {
+      return knex('tenant_property').insert({
+        tenant_id: user.id,
+        property_id
+      })
+      console.log(user.id);
+    });
+  },
+
+  deleteTenant: tenant => {
+    const {
+      id,
+      property_id
+    } = tenant;
+
+    return knex('tenant_property')
+      .where('tenant_property.id', id).del();
   }
 }
