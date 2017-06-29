@@ -105,7 +105,7 @@ router.post('/login', (req, res, next) => {
                 }, (err, token) => {
                   console.log('err', err);
                   console.log('token', token);
-                  console.log('is_landlord', user.is_landlord);                  
+                  console.log('is_landlord', user.is_landlord);
                   res.json({
                     id: user.id,
                     is_landlord: user.is_landlord,
@@ -126,9 +126,5 @@ router.post('/login', (req, res, next) => {
   }
 });
 
-router.get('/logout', (req, res) => {
-  // res.clear
-  // LOG OUT CODE REQUIRED
-});
 
 module.exports = router;
