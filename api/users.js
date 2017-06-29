@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const queries = require('../db/queries');
-const authMiddleware = require('./auth/middleware');
+const authMiddleware = require('../auth/middleware');
 
 function isValidId(req, res, next) {
   if (!isNaN(req.params.id)) return next();
@@ -59,8 +59,8 @@ router.get('/:id/user', authMiddleware.allowAccess, isValidId, (req, res, next) 
           } else {
             resError(res, 404, "User Not Found")
           }
-        });
-    }
+        })
+    })
 
     function resError(res, statusCode, message) {
       res.status(statusCode);

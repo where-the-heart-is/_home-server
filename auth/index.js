@@ -100,13 +100,15 @@ router.post('/login', (req, res, next) => {
               if (result) {
                 jwt.sign({
                   id: user.id
-                }, process.env.SECRET_TOKEN, {
+                }, process.env.TOKEN_SECRET, {
                   expiresIn: '7d'
                 }, (err, token) => {
                   console.log('err', err);
                   console.log('token', token);
+                  console.log('is_landlord', user.is_landlord);                  
                   res.json({
-                    id,
+                    id: user.id,
+                    is_landlord: user.is_landlord,
                     token,
                     message: "Okay"
                   })
