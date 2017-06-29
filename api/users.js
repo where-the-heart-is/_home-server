@@ -1,4 +1,7 @@
-const express = require('express'), router = express.Router(), queries = require('../db/queries');
+const express = require('express')
+const router = express.Router()
+const queries = require('../db/queries');
+const authMiddleware = require('./auth/middleware');
 
 function isValidId(req, res, next) {
   if (!isNaN(req.params.id)) return next();
@@ -40,10 +43,30 @@ router.get('/:id', isValidId, (req, res, next) => {
           lastName: property.last_name,
           email: property.email
         });
-    });
-    res.json(collectionOfProperties)
-      
+      });
+      res.json(collectionOfProperties)
+
     });
 });
 
-module.exports = router;
+
+router.get('/:id/user', authMiddleware.allowAccess, isValidId, (req, res, next) => {
+      queries.getOne(req.params.id)
+        .then(user => {
+          if (user) {
+            delete user.password;
+            res.json(user)
+          } else {
+            resError(res, 404, "User Not Found")
+          }
+        });
+    }
+
+    function resError(res, statusCode, message) {
+      res.status(statusCode);
+      res.json({
+        message
+      });
+    }
+
+    module.exports = router;
