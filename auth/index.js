@@ -75,6 +75,7 @@ router.post('/signup', (req, res, next) => {
                     console.log('token', token);
                     res.json({
                       id,
+                      is_landlord: user.is_landlord,
                       token,
                       message: "New User Created"
                     })
