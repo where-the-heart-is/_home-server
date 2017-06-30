@@ -24,7 +24,7 @@ module.exports = {
 
   // PROPERTY MAINTENANCE
   getMaintenance: id => {
-    return knex('maintenance').where('property_id', id).first();
+    return knex('maintenance').where('property_id', id);
   },
 
   createMaintenance: maintenance => {
