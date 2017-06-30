@@ -50,17 +50,17 @@ router.get('/:id', isValidId, (req, res, next) => {
 });
 
 
-router.get('/:id/user', authMiddleware.allowAccess, isValidId, (req, res, next) => {
-      queries.getOne(req.params.id)
-        .then(user => {
-          if (user) {
-            delete user.password;
-            res.json(user)
-          } else {
-            resError(res, 404, "User Not Found")
-          }
-        })
-    })
+// router.get('/:id/user', authMiddleware.allowAccess, isValidId, (req, res, next) => {
+//       queries.getOne(req.params.id)
+//         .then(user => {
+//           if (user) {
+//             delete user.password;
+//             res.json(user)
+//           } else {
+//             resError(res, 404, "User Not Found")
+//           }
+//         })
+//     })
 
     function resError(res, statusCode, message) {
       res.status(statusCode);
